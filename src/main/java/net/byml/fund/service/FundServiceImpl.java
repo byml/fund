@@ -7,35 +7,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 @Service("fundService")
 public class FundServiceImpl implements FundService {
 
 	@Autowired
 	private FundRepository repository;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * edu.ku.it.si.springjpaoracleexample.service.FundService#findbyfundId(
-	 * java.lang.String)
-	 */
-
 	public Fund findById(Long id) {
 		return repository.findOne(id);
-
 	}
 
-	public Iterable<Fund> findAllFunds() {
+	public Iterable<Fund> findAll() {
 		return repository.findAll();
 	}
-
-	@Transactional
-	public void update(Fund fund) {
-		repository.save(fund);
-	}
-
+ 
 	@Transactional
 	public void delete(Fund fund) {
 		repository.delete(fund);

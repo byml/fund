@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Form - jQuery EasyUI Demo</title>
+	<style type="text/css">
+		label{
+			width:120px;
+			display:block;
+		}
+	</style>
+
+	<link rel="stylesheet" type="text/css" href="/fund/resources/js/jquery/jquery-easyui-1.3.1/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="/fund/resources/js/jquery/jquery-easyui-1.3.1/themes/icon.css"> 
+	<script type="text/javascript" src="/fund/resources/js/jquery/jquery-easyui-1.3.1/jquery-1.8.0.min.js"></script>
+	<script type="text/javascript" src="/fund/resources/js/jquery/jquery-easyui-1.3.1/jquery.easyui.min.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="/resources/js/jquery/jquery-easyui-1.3.1/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="/resources/js/jquery/jquery-easyui-1.3.1/themes/icon.css"> 
+	<script type="text/javascript" src="/resources/js/jquery/jquery-easyui-1.3.1/jquery-1.8.0.min.js"></script>
+	<script type="text/javascript" src="/resources/js/jquery/jquery-easyui-1.3.1/jquery.easyui.min.js"></script>
+	<script type="text/javascript">
+		function loaddata1(){
+			var code = $('input[name="code"]')[0].value;
+			$('#fundTypeForm').form('load','fundType/'+code);
+		}
+		function loaddata2(){
+			$('#fundTypeForm').form('load',{
+				name:'name2',
+				email:'mymail@gmail.com',
+				subject:'subject2',
+				message:'message2',
+				language:5
+			});
+		}
+		function cleardata(){
+			$('#fundTypeForm').form('clear');
+		}
+
+		function save2(){
+			var r = $('#fundTypeForm').form('validate');
+			if(!r) {
+				return false;
+			}
+			$.post("fundType/save",$("#fundTypeForm").serializeArray(),function(data){
+				$.messager.alert('ÌבÊ¾',data.mes,'info');
+			});
+		}
+	</script>
+</head>
+<body>
+	<h2>Form Demo</h2>
+	<div class="demo-info">
+		<div class="demo-tip icon-tip"></div>
+		<div>Click below button to load or clear the form data.</div>
+	</div>
+	
+	<div style="margin:10px 0;">
+		<a href="#" class="easyui-linkbutton" onclick="loaddata1()">Load1</a> 
+		<a href="#" class="easyui-linkbutton" onclick="loaddata2()">Load2</a> 
+		<a href="#" class="easyui-linkbutton" onclick="cleardata()">Clear</a> 
+	</div>
+	<div style="background:#fafafa;padding:10px;width:300px;height:300px;">
+	    <form id="fundTypeForm" method="post">
+			<input type="hidden" name="id"></input>
+			<div>
+	            <label for="name">Code:</label>
+	            <input class="easyui-validatebox" type="text" name="code" data-options="required:true"></input>
+	        </div>
+	        <div>
+	            <label for="name">Name:</label>
+	            <input class="easyui-validatebox" type="text" name="name" data-options="required:true"></input>
+	        </div>	       
+	        <div>
+				<a href="#" id="btn-save" onclick="save2();" class="easyui-linkbutton" iconCls="icon-save">save</a>
+	        </div>
+	        	<input class="easyui-combobox" 
+			name="language"
+			url="combobox_data.json" 
+			valueField="id" 
+			textField="text" 
+			multiple="true" 
+			panelHeight="auto"
+			method="get">
+	    </form>
+	</div>
+	
+</body>
+</html>

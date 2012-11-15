@@ -6,47 +6,26 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
-
+import lombok.Data;
+import net.byml.common.util.DataDefinition;
+import net.byml.common.util.DataDefinitions;
+import net.byml.common.util.DataType;
 
 @Entity
 @Table(name = "fund_type")
+@Data
 public class FundType {
+	@Id
+	@GeneratedValue
+	@Column(name = "fund_type_id")
 	private Long id;
 	private String code;
 	private String name;
 
-	@Id
-	@GeneratedValue
-	@Column(name="fund_type_id")	
-	public Long getId() {
-		return id;
+	public DataDefinitions t() {
+		DataDefinitions dataDefinitions = new DataDefinitions();
+		dataDefinitions.add(new DataDefinition("code", DataType.STRING));
+		dataDefinitions.add(new DataDefinition("name", DataType.STRING));
+		return dataDefinitions;
 	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	@Override
-	public String toString() { 
-		return ReflectionToStringBuilder.toString(this);		
-	}
-
-	
 }

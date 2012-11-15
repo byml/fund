@@ -3,8 +3,7 @@
 	xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
-	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
-	xmlns:mvc="http://www.springframework.org/schema/mvc"  
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa" xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xsi:schemaLocation="
             http://www.springframework.org/schema/beans
             http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -19,7 +18,8 @@
             http://www.springframework.org/schema/data/jpa 
             http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
             http://www.springframework.org/schema/mvc   
-           	http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd" default-autowire="byName"> 
+           	http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd"
+	default-autowire="byName">
 
 	<!-- scans the classpath for annotated components (including @Repostory 
 		and @Service that will be auto-registered as Spring beans -->
@@ -28,18 +28,18 @@
 	<!-- methods or classes needing to run in a complete transaction will be 
 		annotated with Transactional -->
 	<tx:annotation-driven />
-		
+
 	<jpa:repositories base-package="net.byml.*.repository" />
 
 	<!-- Creates a data source that can provide a connection to in-memory embedded 
 		database populated with test data see: http://static.springsource.org/spring/docs/3.0.x/spring-framework-reference/html/ch12s08.html -->
-    <bean id="dataSource"
-        class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://localhost/fund_analysis" />
-        <property name="username" value="root" />
-        <property name="password" value="root" />
-    </bean>
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost/fund_analysis" />
+		<property name="username" value="root" />
+		<property name="password" value="root" />
+	</bean>
 
 	<!-- This will ensure that hibernate or jpa exceptions are automatically 
 		translated into Spring's generic DataAccessException hierarchy for those 
@@ -48,10 +48,12 @@
 		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
 
 	<!-- JPA Entity Manager Factory -->
+
 	<bean id="entityManagerFactory"
-		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
-		p:dataSource-ref="dataSource" p:persistenceXmlLocation="META-INF/persistence.xml"
-		p:persistenceUnitName="springJpaPersistenceUnit" />
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="persistenceUnitName" value="springJpaPersistenceUnit" />
+	</bean>
 
 
 	<!-- bean post-processor for JPA annotations -->
@@ -65,4 +67,10 @@
 
 	<!-- use declarative transaction management -->
 	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- one of the properties available; the maximum file size in bytes -->
+		<property name="maxUploadSize" value="100000" />
+	</bean>
 </beans>

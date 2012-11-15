@@ -8,15 +8,6 @@ public interface FundService {
 	public Fund findByCode(String code);
 
 	public Iterable<Fund> findByIds(Iterable<Long> ids);
-
-	/**
-	 * Update the data repository with the state of the provided Fund object.
-	 * 
-	 * @param fund
-	 *            Fund object
-	 */
-	public void update(Fund fund);
-
 	/**
 	 * Remove the associated Fund record from the data repository.
 	 * 
@@ -31,5 +22,5 @@ public interface FundService {
 	 */
 	public void save(Fund fund);
 
-	public Iterable<Fund> findAllFunds();
+	public Iterable<Fund> findAll();
 }

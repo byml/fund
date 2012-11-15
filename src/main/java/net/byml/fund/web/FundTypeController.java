@@ -1,8 +1,13 @@
 package net.byml.fund.web;
 
+import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import net.byml.common.util.DataDefinitions;
+import net.byml.common.util.DataDefinitionsManager;
+import net.byml.common.util.ImportExcelHelper;
 import net.byml.fund.model.FundType;
 import net.byml.fund.service.FundTypeService;
 
@@ -12,7 +17,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/fundType")
@@ -56,5 +64,37 @@ public class FundTypeController {
 		map.put("rows", service.findAll());
 		map.put("total", 100);
 		return map;
+	}
+
+	@RequestMapping(value = "/upload", method = RequestMethod.POST)
+	public String upload(@RequestParam("name") String name,
+			@RequestParam("file") MultipartFile file) throws Exception {
+		if (!file.isEmpty()) {
+			InputStream is = null;
+			try {
+				is = file.getInputStream();
+				DataDefinitions dataDefinitions = DataDefinitionsManager
+						.getInstance().getDataDefinitions("fundType");
+				List<Map<String, Object>> mapList = ImportExcelHelper
+						.getInstance().toMapList(is, dataDefinitions);
+				service.saveByMapList(mapList);
+				System.out.println(mapList);
+				// store the bytes somewhere
+			} finally {
+				if (is != null) {
+					is.close();
+				}
+			}
+			return "fundTYpeList.html";
+		} else {
+			return "redirect:queryList";
+		}
+	}
+
+	@RequestMapping(value = "/download")
+	public ModelAndView download() throws Exception {
+		Map<String, Object> map = queryList();
+		map.put("name", "fundType");
+		return new ModelAndView("downloadFundType", map);
 	}
 }

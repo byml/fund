@@ -11,96 +11,34 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import lombok.Data;
+
 @Entity
 @Table(name = "fund")
+@Data
 public class Fund implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -765883565260349635L;
 
-	private Long id;
-	private String code;
-	private String fullName;
-	private String shortName;
-	private FundType fundType;
-
-	private Boolean closed;
-	private Boolean yieldAgreed;
-	private Boolean floorTrade;
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "fund_id")
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
-	}
-
+	private Long id;
+	private String code;
 	@Column(name = "full_name")
-	public String getFullName() {
-		return fullName;
-	}
-
-	public void setFullName(String fullName) {
-		this.fullName = fullName;
-	}
+	private String fullName;
 
 	@Column(name = "short_name")
-	public String getShortName() {
-		return shortName;
-	}
-
-	public void setShortName(String shortName) {
-		this.shortName = shortName;
-	}
-
+	private String shortName;
 	@ManyToOne
 	@JoinColumn(name = "fund_type_id")
-	public FundType getFundType() {
-		return fundType;
-	}
-
-	public void setFundType(FundType fundType) {
-		this.fundType = fundType;
-	}
-
+	private FundType fundType;
 	@Column(name = "is_closed")
-	public Boolean getClosed() {
-		return closed;
-	}
-
-	public void setClosed(Boolean closed) {
-		this.closed = closed;
-	}
-
+	private Boolean closed;
 	@Column(name = "is_yield_agreed")
-	public Boolean getYieldAgreed() {
-		return yieldAgreed;
-	}
-
-	public void setYieldAgreed(Boolean yieldAgreed) {
-		this.yieldAgreed = yieldAgreed;
-	}
-
+	private Boolean yieldAgreed;
 	@Column(name = "is_floor_trade")
-	public Boolean getFloorTrade() {
-		return floorTrade;
-	}
-
-	public void setFloorTrade(Boolean floorTrade) {
-		this.floorTrade = floorTrade;
-	}
-
+	private Boolean floorTrade;
 }
